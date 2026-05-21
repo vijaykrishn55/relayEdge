@@ -1,0 +1,9 @@
+[agent]
+name = "relayedge"
+version = "0.1.0"
+
+[providers]
+default = "groq"
+
+[groq]
+model="llama-4-scout"
