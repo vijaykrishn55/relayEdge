@@ -7,6 +7,10 @@ mod channel;
 mod providers;
 
 use orchestrator::context::ContextManager;
+use tools::registry::ToolRegistry;
+use tools::calculator::CalculatorTool;
+use tools::Tool;
+
 
 fn main(){
     let mut ctx = ContextManager::new(20);
@@ -15,8 +19,14 @@ fn main(){
 
     println!("Messages in the context: {}", ctx.len());
 
-    for msg in ctx.get_messages(){
-        println!("[{}]: {}", msg.role, msg.content);
+    //tool registry
+    let mut registry = ToolRegistry::new();
+    registry.register(Box::new(CalculatorTool));
+    println!("tools registred: {}", registry.len());
+
+    if let Some(tool)= registry.get("calculator"){
+        let result = tool.execute("10 * 5");
+        println!("tool result: {}", result);
     }
     
 }
